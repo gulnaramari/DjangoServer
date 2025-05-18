@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'catalog/base.html' %}
+
+
+{% block title %}Вход{% endblock %}
+
+
+{% block content %}
+    <div class="row text-center">
+        {% include 'catalog/header.html' %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Войти</button>
+            </form>
+
+    </div>
+{% endblock %}
+
+

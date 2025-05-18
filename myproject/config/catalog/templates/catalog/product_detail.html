@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+
+ {% block title %}Детали продукта: {{ object.name }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <!-- Центрирование заголовка -->
+        <div class="col-lg-6 col-md-8 mx-auto">
+         <h2 class="fw-light">Информация о товаре</h2>
+
+       </div>
+        <!-- Выравнивание текста по левому краю -->
+        <div class="row justify-content-start">
+            <div class="col-md-6">
+                {% if object.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid mb-3 rounded">
+                {% else %}
+                    <p><em>Изображение отсутствует</em></p>
+                {% endif %}
+                <p><strong>Название продукта:</strong> {{ object.name }}</p>
+                <p><strong>Цена:</strong> {{ object.purchase_price|default:"Неизвестно" }} руб.</p>
+                <p><strong>Описание:</strong> {{ object.description|default:"Неизвестно" }} </p>
+                <p><strong>Категория:</strong> {{ object.category|default:"Неизвестно" }} </p>
+                <p><strong>Дата создания:</strong> {{ object.created_at|default:"Неизвестно" }} </p>
+                <p><strong>Статус:</strong> {{ object.get_status_display }} </p>
+
+
+
+            </div>
+        </div>
+    </div>
+<div class="btn-group">
+               <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">Назад</a>
+               </div>
+{% endblock %}

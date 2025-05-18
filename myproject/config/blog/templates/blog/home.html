@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Посты{% endblock %}
+
+{% block content %}
+    <div class="row text-center">
+        {% include 'blog/header.html' %}
+        {% for post in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if object.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid mb-3 rounded">
+                    {% else %}
+                        <p><em>Изображение отсутствует</em></p>
+                    {% endif %}
+                    <a href="{% url 'blog:post_details' post.pk %}" class="btn btn-lg btn-block btn-outline-primary">Посмотреть детали</a>
+                    <a href="{% url 'blog:update_post' post.pk %}" class="btn btn-lg btn-block btn-outline-primary">Изменить пост</a>
+                    <a href="{% url 'blog:delete_post' post.pk %}" class="btn btn-lg btn-block btn-outline-primary">Удалить пост</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
