@@ -26,12 +26,20 @@ def validate_image(image):
     if ext not in valid_extensions:
         raise ValidationError("Допустимые форматы изображений: JPEG, PNG.")
 
+class ProductModeratorForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = [
+            "published_status",
+        ]
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name',
                   'description',
+                  'published_status',
                   'image',
                   'category',
                   'purchase_price',
@@ -49,6 +57,11 @@ class ProductForm(forms.ModelForm):
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
                 'placeholder': 'Введите описание'  # Текст подсказки внутри поля
             })
+        self.fields["published_status"].widget.attrs.update(
+            {
+                "class": "form-check-input",
+            }
+        )
 
         self.fields['image'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля

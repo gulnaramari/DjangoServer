@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.db import models
+from users.models import User
 
 
 class Contacts(models.Model):
@@ -102,6 +103,8 @@ class Product(models.Model):
         help_text="Введите дату изменения",
         default=timezone.now
     )
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
 
     class Meta:
         verbose_name = "продукт"

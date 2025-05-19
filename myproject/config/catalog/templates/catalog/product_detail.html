@@ -17,6 +17,8 @@
                 {% else %}
                     <p><em>Изображение отсутствует</em></p>
                 {% endif %}
+
+
                 <p><strong>Название продукта:</strong> {{ object.name }}</p>
                 <p><strong>Цена:</strong> {{ object.purchase_price|default:"Неизвестно" }} руб.</p>
                 <p><strong>Описание:</strong> {{ object.description|default:"Неизвестно" }} </p>
