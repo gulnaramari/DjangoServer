@@ -53,6 +53,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Черновик'),
+        ('published', 'Опубликовано'),
+    ]
+
     name = models.CharField(
         max_length=150,
         verbose_name="Название продукта",
@@ -102,13 +107,23 @@ class Product(models.Model):
         default=timezone.now
     )
 
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='draft'
+    )
 
-    def __str__(self):
-        return f"""
-        name: {self.name}, description: {self.description}
-                """
+
 
     class Meta:
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
         ordering = ["name", "description"]
+        permissions = [
+            ('can_unpublish_product', 'Может отменять публикацию продукта'),
+        ]
+
+    def __str__(self):
+        return f"""
+        name: {self.name}, description: {self.description}
+                """
