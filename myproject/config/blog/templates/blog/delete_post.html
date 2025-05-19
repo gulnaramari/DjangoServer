@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block title %} Удалить пост {% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Удалить пост {{ object.title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Удалить</button>
+            <a href="{% url 'blog:home' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

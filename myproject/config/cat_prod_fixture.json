@@ -1,0 +1,120 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 10,
+    "fields": {
+        "name": "Набор молодого бойца",
+        "description": "Все, что нужно для боя)",
+        "category_updated": "2025-04-26T11:14:24.267Z"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 11,
+    "fields": {
+        "name": "Декоративная косметика",
+        "description": "Необходима как воздух всем женщинам))",
+        "category_updated": "2025-04-23T13:35:23.932Z"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 12,
+    "fields": {
+        "name": "Одежда женская",
+        "description": "Платья, шорты, белье и все, что нужно женщине",
+        "category_updated": "2025-04-26T11:31:32.793Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "Футболка",
+        "description": "Одежда для удобного времяпрепровождения",
+        "image": "images/IMG_20220720_172255.jpg",
+        "category": 10,
+        "purchase_price": 1400,
+        "created_at": "2025-04-23T13:33:09.438Z",
+        "updated_at": "2025-04-23T13:33:09.438Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "name": "Крем тональный",
+        "description": "Косметическое средство для ровного тона кожи",
+        "image": "",
+        "category": 11,
+        "purchase_price": 2300,
+        "created_at": "2025-04-23T13:35:31.719Z",
+        "updated_at": "2025-04-23T13:35:31.719Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 10,
+    "fields": {
+        "name": "Пудра",
+        "description": "Нужна для матирования тона кожи и закрепления макияжа",
+        "image": "images/pudra.png",
+        "category": 11,
+        "purchase_price": 300,
+        "created_at": "2025-04-23T13:37:00.552Z",
+        "updated_at": "2025-04-23T13:37:00.552Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 11,
+    "fields": {
+        "name": "Консилер",
+        "description": "Косметическое средство для выравнивания тона кожи под глазами",
+        "image": "images/photo_consiler.jpg",
+        "category": 11,
+        "purchase_price": 1240,
+        "created_at": "2025-04-23T13:51:52.652Z",
+        "updated_at": "2025-04-23T13:51:52.652Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 12,
+    "fields": {
+        "name": "Носки",
+        "description": "Одежда для бойца",
+        "image": "",
+        "category": 10,
+        "purchase_price": 500,
+        "created_at": "2025-04-26T11:15:28.417Z",
+        "updated_at": "2025-04-26T11:15:28.417Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 13,
+    "fields": {
+        "name": "Водный пистолет",
+        "description": "Оружие, необходимое летом",
+        "image": "images/Снимок_экрана_59.png",
+        "category": 10,
+        "purchase_price": 600,
+        "created_at": "2025-04-26T11:29:45.013Z",
+        "updated_at": "2025-04-26T11:29:45.014Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 14,
+    "fields": {
+        "name": "Лонгслив женский",
+        "description": "Одежда на все времена. Прекрасно подходит для отдыха и работы",
+        "image": "images/лонгслив.webp",
+        "category": 12,
+        "purchase_price": 2300,
+        "created_at": "2025-04-26T11:32:13.448Z",
+        "updated_at": "2025-04-26T11:32:13.448Z"
+    }
+}
+]

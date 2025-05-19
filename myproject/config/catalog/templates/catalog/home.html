@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends 'catalog/base.html' %}
+
+{% block title %}Список продуктов{% endblock %}
+
+
+{% block content %}
+    <div class="row text-center">
+        {% include 'catalog/header.html' %}
+        {% for product in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ object.purchase_price }}</h1>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

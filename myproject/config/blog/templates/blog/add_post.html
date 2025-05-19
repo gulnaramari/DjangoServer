@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'blog/base.html' %}
+
+{% block title %} Добавить пост {% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Добавить новый пост</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'blog:home' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

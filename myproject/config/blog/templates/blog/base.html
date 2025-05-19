@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Блог {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <nav class="ms-5">
+        <a class="p-2 btn btn-outline-primary" href="/blog/home/">Каталог</a>
+        <a class="p-2 btn btn-outline-primary" href="/blog/add_post/">Добавить пост</a>
+    </nav>
+</div>
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
