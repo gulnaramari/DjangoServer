@@ -1,7 +1,5 @@
 import os
 from django import forms
-from django.forms import BooleanField
-
 from .models import Product
 from django.core.exceptions import ValidationError
 
@@ -32,7 +30,13 @@ def validate_image(image):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'image', 'category', 'purchase_price', 'created_at', 'updated_at', ]
+        fields = ['name',
+                  'description',
+                  'image',
+                  'category',
+                  'purchase_price',
+                  'created_at',
+                  'updated_at', ]
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -45,6 +49,7 @@ class ProductForm(forms.ModelForm):
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
                 'placeholder': 'Введите описание'  # Текст подсказки внутри поля
             })
+
         self.fields['image'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
                 'accept': 'image/*'  # Разрешаем только изображения

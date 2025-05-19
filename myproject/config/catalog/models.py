@@ -1,6 +1,5 @@
-from django.db import models
 from django.utils import timezone
-from django.conf import settings
+from django.db import models
 
 
 class Contacts(models.Model):
@@ -53,10 +52,6 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    STATUS_CHOICES = [
-        ('draft', 'Черновик'),
-        ('published', 'Опубликовано'),
-    ]
 
     name = models.CharField(
         max_length=150,
@@ -69,6 +64,9 @@ class Product(models.Model):
         verbose_name="Описание продукта",
         help_text="Введите описание продукта",
     )
+
+    published_status = models.BooleanField(default=False, help_text="Товар в наличии")
+
 
     image = models.ImageField(
         upload_to="images/",
@@ -86,7 +84,6 @@ class Product(models.Model):
         null=True,
         related_name="products",
     )
-
     purchase_price = models.DecimalField(
         blank=True,
         default=0.0,
@@ -95,7 +92,6 @@ class Product(models.Model):
         decimal_places=2,
         max_digits=100
     )
-
     created_at = models.DateTimeField(
         verbose_name="Дата создания",
         help_text="Введите дату создания",
@@ -107,23 +103,13 @@ class Product(models.Model):
         default=timezone.now
     )
 
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default='draft'
-    )
-
-
-
     class Meta:
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
-        ordering = ["name", "description"]
+        ordering = ["category", "name", "purchase_price"]
         permissions = [
-            ('can_unpublish_product', 'Может отменять публикацию продукта'),
+            ("can_unpublish_product", "Can unpublish product"),
         ]
 
     def __str__(self):
-        return f"""
-        name: {self.name}, description: {self.description}
-                """
+        return f"""name: {self.name}"""
