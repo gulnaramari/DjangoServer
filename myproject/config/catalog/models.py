@@ -68,7 +68,6 @@ class Product(models.Model):
 
     published_status = models.BooleanField(default=False, help_text="Товар в наличии")
 
-
     image = models.ImageField(
         upload_to="images/",
         blank=True,
@@ -103,8 +102,6 @@ class Product(models.Model):
         help_text="Введите дату изменения",
         default=timezone.now
     )
-    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-
 
     class Meta:
         verbose_name = "продукт"

@@ -8,8 +8,6 @@ from .forms import ProductForm, ProductModeratorForm
 from .models import Product, Contacts
 
 
-
-
 def home(request):
     return render(request, template_name="home.html")
 
@@ -47,10 +45,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
-
 
 class ProductListView(ListView):
     model = Product
@@ -63,28 +57,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        product = self.get_object()
-        if request.user != product.owner and not request.user.groups.filter(name="Модератор продуктов").exists():
-            return HttpResponseForbidden("У вас нет прав для редактирования этого продукта.")
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return ProductForm
-        if user.has_perm("product.can_unpublish_product"):
-            return ProductModeratorForm
-        raise PermissionDenied
-
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    success_url = reverse_lazy('catalog:product_list')
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:product_list")
 
     def dispatch(self, request, *args, **kwargs):
         product = self.get_object()
-        if request.user != product.owner and not request.user.groups.filter(name="Модератор продуктов").exists():
+        if not request.user.groups.filter(name="Модератор продуктов").exists():
             return HttpResponseForbidden("У вас нет прав для удаления этого продукта.")
         return super().dispatch(request, *args, **kwargs)
 
