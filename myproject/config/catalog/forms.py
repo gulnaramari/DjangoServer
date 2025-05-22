@@ -11,7 +11,7 @@ def validate_no_forbidden_words(value):
     lower_value = value.lower()
     for word in FORBIDDEN_WORDS:
         if word in lower_value:
-            raise ValidationError(f'Уберите спам!')
+            raise ValidationError(f'Уберите некорректные слова!')
 
 
 def validate_image(image):
@@ -25,6 +25,7 @@ def validate_image(image):
     ext = os.path.splitext(image.name)[1].lower()
     if ext not in valid_extensions:
         raise ValidationError("Допустимые форматы изображений: JPEG, PNG.")
+
 
 class ProductModeratorForm(forms.ModelForm):
     class Meta:
@@ -43,19 +44,18 @@ class ProductForm(forms.ModelForm):
                   'image',
                   'category',
                   'purchase_price',
-                  'created_at',
-                  'updated_at', ]
+                   ]
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
 
         self.fields['name'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'placeholder': 'Введите название продукта'  # Текст подсказки внутри поля
+                'placeholder': 'Введите название продукта'
             })
         self.fields['description'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'placeholder': 'Введите описание'  # Текст подсказки внутри поля
+                'placeholder': 'Введите описание'
             })
         self.fields["published_status"].widget.attrs.update(
             {
@@ -65,40 +65,31 @@ class ProductForm(forms.ModelForm):
 
         self.fields['image'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'accept': 'image/*'  # Разрешаем только изображения
+                'accept': 'image/*'
             })
         self.fields['category'].widget.attrs.update({
                 'class': 'form-control'  # Добавление CSS-класса для стилизации поля
             })
         self.fields['purchase_price'].widget.attrs.update({
                 'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'placeholder': 'Введите цену'  # Текст подсказки внутри поля
-            })
-        self.fields['created_at'].widget.attrs.update({
-                'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'type': 'date'  # Указание типа поля как даты
-            })
-        self.fields['updated_at'].widget.attrs.update({
-                'class': 'form-control',  # Добавление CSS-класса для стилизации поля
-                'type': 'date'  # Указание типа поля как даты
+                'placeholder': 'Введите цену'
             })
 
-    def clean_name(self):
-        name = self.cleaned_data.get("name")
-        for word in FORBIDDEN_WORDS:
-            if word in name.lower():
-                raise ValidationError('Вы используете запретное слово в названии продукта: "{}"'.format(word))
-
-    def clean_description(self):
-        description = self.cleaned_data.get("description")
-        for word in FORBIDDEN_WORDS:
-            if word in description.lower():
-                raise ValidationError('Вы используете запретное слово в описании продукта: "{}"'.format(word))
-        return description
+    def clean(self):
+        cleaned_data = super().clean()
+        product_name = cleaned_data.get('name')
+        description = cleaned_data.get('description')
+        validate_no_forbidden_words(product_name)
+        validate_no_forbidden_words(description)
 
     def clean_price(self):
-        price = self.cleaned_data.get("purchase_price")
+        price = self.cleaned_data.get['purchase_price']
         if price < 0:
-            raise ValidationError("Цена не может быть отрицательной")
+            raise ValidationError('Цена не должна быть отрицательной')
         return price
 
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image:
+            validate_image(image)
+        return image

@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView, View
 from .forms import ProductForm, ProductModeratorForm
-from .models import Product, Contacts
+from .models import Product, Contact
 
 
 def home(request):
@@ -21,9 +22,9 @@ class UnpublishProductView(LoginRequiredMixin, View):
         product = get_object_or_404(Product, id=product_id)
 
         if not request.user.has_perm("can_unpublish_product"):
-            return HttpResponseForbidden("Вы не можете убирать товар")
+            return HttpResponseForbidden("Вы не можете убирать товар с публикации!")
 
-        product.published_status = request.POST.get("published_status")
+        product.published_status = request.POST.get["published_status"]
         product.save()
 
         return redirect("category:product_detail", pk=product_id)
@@ -45,6 +46,21 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:product_list')
 
+    def form_valid(self, form):
+        product = form.save
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.can_unpublish_product'):
+            return ProductModeratorForm
+        raise PermissionDenied
+
 
 class ProductListView(ListView):
     model = Product
@@ -64,14 +80,13 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("catalog:product_list")
 
     def dispatch(self, request, *args, **kwargs):
-        product = self.get_object()
         if not request.user.groups.filter(name="Модератор продуктов").exists():
             return HttpResponseForbidden("У вас нет прав для удаления этого продукта.")
         return super().dispatch(request, *args, **kwargs)
 
 
-class ContactsView(CreateView):
-    model = Contacts
+class ContactView(CreateView):
+    model = Contact
     fields = ['name', 'message']
     template_name = 'catalog/contacts.html'
     success_url = reverse_lazy('catalog:product_list')

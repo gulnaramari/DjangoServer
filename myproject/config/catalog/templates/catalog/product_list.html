@@ -14,12 +14,6 @@
          <img src="{{ product.image | filter_media }}">
 
          <div class="card-body">
-             {% if object.published_status %}
-              <p>Товар в наличии</p>
-          {% else %}
-              <p>Товар временно отсутствует</p>
-          {% endif %}
-
            <p class="card-text">{{ object.name }}</p>
            <p>{{ object.description|truncatechars:100 }}</p>
            <div class="d-flex justify-content-between align-items-center">

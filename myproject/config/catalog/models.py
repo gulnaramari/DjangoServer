@@ -1,9 +1,11 @@
-from django.utils import timezone
 from django.db import models
+
+from django.utils import timezone
+
 from users.models import User
 
 
-class Contacts(models.Model):
+class Contact(models.Model):
     name = models.CharField(
         max_length=50,
         verbose_name="Имя и Фамилия",
@@ -42,6 +44,7 @@ class Category(models.Model):
         auto_now=True,
         verbose_name="Последняя модификация"
     )
+
 
     def __str__(self):
         return f"name: {self.name}, description: {self.description}"
@@ -92,23 +95,17 @@ class Product(models.Model):
         decimal_places=2,
         max_digits=100
     )
-    created_at = models.DateTimeField(
-        verbose_name="Дата создания",
-        help_text="Введите дату создания",
-        default=timezone.now
-    )
-    updated_at = models.DateTimeField(
-        verbose_name="Дата изменения",
-        help_text="Введите дату изменения",
-        default=timezone.now
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+
 
     class Meta:
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
-        ordering = ["category", "name", "purchase_price"]
+        ordering = ["category", "name"]
         permissions = [
             ("can_unpublish_product", "Can unpublish product"),
+            ("can_delete_product", "Can delete product"),
         ]
 
     def __str__(self):

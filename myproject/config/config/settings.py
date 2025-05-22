@@ -140,7 +140,7 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'catalog:product_list'
 
 # URL для перенаправления после выхода из системы
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'catalog:home'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
